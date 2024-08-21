@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom'
-import { Brands, Cars, Categories, Cities, Home, Locations, Login, Modals } from './Pages'
+import { Brands, Cars, Categories, Cities, Home, Locations, Login, Models } from './Pages'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import Layout from './layout/layout';
@@ -18,6 +18,7 @@ const App = () => {
     }
 
   }, [])
+  
 
 
 
@@ -28,7 +29,7 @@ const App = () => {
           <Route path='/' element={<Home />}></Route>
           <Route path='/categories' element={<Categories />}></Route>
           <Route path='/brands' element={<Brands />}></Route>
-          <Route path='/modals' element={<Modals />}></Route>
+          <Route path='/models' element={<Models />}></Route>
           <Route path='/locations' element={<Locations />}></Route>
           <Route path='/cities' element={<Cities />}></Route>
           <Route path='/cars' element={<Cars />}></Route>

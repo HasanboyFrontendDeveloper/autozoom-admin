@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Typography,
   Button,
@@ -6,18 +8,17 @@ import {
 } from "@material-tailwind/react";
 import axios from "../service/api";
 import { useEffect, useState } from "react";
-import { CreateCategory, Loader, UpdateCategory } from "../components";
+import { CreateCategory, UpdateCategory } from "../components";
 import { toast } from "react-toastify";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 
 
-const TABLE_HEAD = ["Name", "Job", "Images"];
+const TABLE_HEAD = ["Name", "Job", "Images", ""];
 
-const Categories = () => {
+const Models = () => {
   const [categories, setCategories] = useState([])
   const [editCategory, setEditCategory] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
 
   const [open, setOpen] = useState(false);
   const [openUpdateCategory, setOpenUpdateCategory] = useState(false)
@@ -27,7 +28,6 @@ const Categories = () => {
   const handleOpenUpdateCategory = () => setOpenUpdateCategory(!openUpdateCategory);
 
   const getCategory = async () => {
-    setIsLoading(true)
 
     try {
       const res = await axios.get('/categories')
@@ -39,8 +39,6 @@ const Categories = () => {
     } catch (error) {
       console.error(error);
 
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -71,6 +69,26 @@ const Categories = () => {
     }
   }
 
+  const updateCategory = async (id) => {
+    try {
+      const res = await axios.update(`/categories/${id}`)
+      getCategory()
+
+      toast.success(res?.data?.message, {
+        theme: 'dark'
+      })
+
+    } catch (error) {
+      console.error(error);
+
+
+      toast.error(error?.response?.data?.message, {
+        theme: 'dark'
+      })
+    }
+  }
+
+
   const openUpdateModal = (item = null) => {
     handleOpenUpdateCategory()
     setEditCategory(item)
@@ -80,9 +98,14 @@ const Categories = () => {
 
 
   return (
-    <div className="bg-gray-100 p-20 min-h-[100vh] ">
+    <div className="bg-gray-100 p-20 ">
       <div className="max-w-7xl mx-auto">
 
+
+
+        <div className="pt-10 pb-2 flex justify-end px-5 ">
+          <Button color="green" className="" onClick={handleOpen} >Create Category</Button>
+        </div>
 
         <Card className="h-full w-full overflow-hidden ">
           <table className="w-full min-w-max table-auto text-left">
@@ -99,10 +122,6 @@ const Categories = () => {
                     </Typography>
                   </th>
                 ))}
-                <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 flex justify-center ">
-                  <Button color="light-blue" className="" onClick={handleOpen} >Create Category</Button>
-                </th>
-
               </tr>
             </thead>
             <tbody>
@@ -121,16 +140,14 @@ const Categories = () => {
                   <td className="p-4">
                     <img src={`https://autoapi.dezinfeksiyatashkent.uz/api/uploads/images/${image_src}`} alt="" className="w-28" />
                   </td>
-                  <td className="p-4 flex justify-center gap-5 ">
+                  <td className="p-4">
                     <IconButton color="red" variant="outlined" onClick={() => deleteCategory(id)} ><TrashIcon className="w-5 h-5" /> </IconButton>
-                    <IconButton color="light-blue" onClick={() => openUpdateModal({ name_en, name_ru, image_src, id })} ><PencilSquareIcon className="w-5 h-5" /> </IconButton>
+                    <IconButton color="green" className="ml-5" onClick={() => openUpdateModal({ name_en, name_ru, image_src, id })} ><PencilSquareIcon className="w-5 h-5" /> </IconButton>
                   </td>
                 </tr>
               ))}
             </tbody>
-
           </table>
-          {isLoading && <Loader />}
         </Card>
 
       </div>
@@ -149,4 +166,4 @@ const Categories = () => {
   )
 }
 
-export default Categories
+export default Models

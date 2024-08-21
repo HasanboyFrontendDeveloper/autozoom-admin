@@ -27,11 +27,6 @@ const CreateCategory = ({ open, handleOpen, getCategory }) => {
     const submitHandler = async (e) => {
         e.preventDefault()
 
-        const token = localStorage.getItem('token')
-
-        console.log(token);
-
-
         const postData = new FormData()
 
         postData.append('name_en', values.name_en)
@@ -60,6 +55,7 @@ const CreateCategory = ({ open, handleOpen, getCategory }) => {
                 name_en: '',
                 name_ru: '',
             })
+            setPrintPic('')
         }
 
     }
@@ -76,44 +72,42 @@ const CreateCategory = ({ open, handleOpen, getCategory }) => {
 
 
     return (
-        <>
 
-            <Dialog open={open} handler={handleOpen} size="sm" >
-                <form onSubmit={submitHandler}>
-                    <DialogHeader className="text-center">Create Category</DialogHeader>
-                    <DialogBody className="flex flex-col gap-4">
-                        <Input label="Name En" size="lg" name="name_en" onChange={inputHandler} value={values.name_en} required />
-                        <Input label="Name ru" size="lg" name="name_ru" onChange={inputHandler} value={values.name_ru} required />
-                        <div className="flex gap-5">
-                            {printPic && <div className=" max-w-40 max-h-40 " ><img src={printPic} alt="printPic" /></div>}
+        <Dialog open={open} handler={handleOpen} size="sm" >
+            <form onSubmit={submitHandler}>
+                <DialogHeader className="text-center">Create Category</DialogHeader>
+                <DialogBody className="flex flex-col gap-4">
+                    <Input label="Name En" size="lg" name="name_en" onChange={inputHandler} value={values.name_en} required />
+                    <Input label="Name ru" size="lg" name="name_ru" onChange={inputHandler} value={values.name_ru} required />
+                    <div className="flex gap-5">
+                        {printPic && <div className=" max-w-40 max-h-40 " ><img src={printPic} alt="printPic" /></div>}
 
-                            <label className="w-40 h-40 border-2 flex justify-center items-center ">
-                                Upload img
-                                <input
-                                    type="file"
-                                    className="hidden"
-                                    onChange={pictureHandler}
-                                    accept="image/png, image/jpeg"
-                                />
-                            </label>
-                        </div>
-                    </DialogBody>
-                    <DialogFooter>
-                        <Button
-                            variant="text"
-                            color="red"
-                            onClick={handleOpen}
-                            className="mr-1"
-                        >
-                            <span>Cancel</span>
-                        </Button>
-                        <Button variant="gradient" color="green" type="submit">
-                            <span>Submit</span>
-                        </Button>
-                    </DialogFooter>
-                </form>
-            </Dialog>
-        </>
+                        <label className="w-40 h-40 border-2 flex justify-center items-center ">
+                            Upload img
+                            <input
+                                type="file"
+                                className="hidden"
+                                onChange={pictureHandler}
+                                accept="image/png, image/jpeg"
+                            />
+                        </label>
+                    </div>
+                </DialogBody>
+                <DialogFooter>
+                    <Button
+                        variant="text"
+                        color="red"
+                        onClick={handleOpen}
+                        className="mr-1"
+                    >
+                        <span>Cancel</span>
+                    </Button>
+                    <Button variant="gradient" color="green" type="submit">
+                        <span>Submit</span>
+                    </Button>
+                </DialogFooter>
+            </form>
+        </Dialog>
     )
 }
 
